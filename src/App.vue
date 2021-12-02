@@ -1,60 +1,27 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
+  <v-app id="inspire">
+    <Sidebar :drawer="drawer" />
+    <Topbar @drawerEvent="drawer = !drawer" />
+    <v-main style="background: #f5f5f540">
+      <v-container class="py-8 px-6" fluid>
+        <router-view></router-view>
+      </v-container>
+      <Footer @drawerEvent="drawer = !drawer" />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+import Footer from "./components/Footer";
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
+  name: "App",
+  components: { Topbar, Sidebar, Footer },
   data: () => ({
-    //
+    cards: ["Today", "Yesterday"],
+    drawer: null,
   }),
+  methods: {},
 };
 </script>
