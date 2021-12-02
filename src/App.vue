@@ -19,7 +19,6 @@ export default {
   name: "App",
   components: { Topbar, Sidebar, Footer },
   data: () => ({
-    cards: ["Today", "Yesterday"],
     drawer: null,
   }),
   methods: {},
