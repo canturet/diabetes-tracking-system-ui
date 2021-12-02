@@ -11,12 +11,18 @@
     </v-img>
     <v-divider></v-divider>
     <v-list>
-      <v-list-item v-for="[icon, text] in links" :key="icon" link>
+      <v-list-item
+        v-for="link in links"
+        :key="link.text"
+        router
+        :to="link.route"
+        active-class="border"
+      >
         <v-list-item-icon>
-          <v-icon>{{ icon }}</v-icon>
+          <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ text }}</v-list-item-title>
+          <v-list-item-title>{{ link.text }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -30,12 +36,20 @@ export default {
   data() {
     return {
       links: [
-        ["mdi-home", "Anasayfa"],
-        ["mdi-account-multiple-plus", "Kayıt Ol"],
-        ["mdi-login", "Giriş Yap"],
-        ["mdi-test-tube", "Test Yap"],
-        ["mdi-format-list-bulleted", "Sonuçları Görüntüle"],
-        ["mdi-logout", "Çıkış Yap"],
+        { icon: "mdi-home", text: "Anasayfa", route: "/" },
+        {
+          icon: "mdi-account-multiple-plus",
+          text: "Kayıt Ol",
+          route: "/register",
+        },
+        { icon: "mdi-login", text: "Giriş Yap", route: "/login" },
+        { icon: "mdi-test-tube", text: "Test Yap", route: "/test" },
+        {
+          icon: "mdi-format-list-bulleted",
+          text: "Sonuçları Görüntüle",
+          route: "/result",
+        },
+        { icon: "mdi-logout", text: "Çıkış Yap", route: "/logout" },
       ],
     };
   },

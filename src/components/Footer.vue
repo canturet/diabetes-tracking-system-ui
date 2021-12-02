@@ -1,9 +1,9 @@
 <template>
-  <v-footer padless bottom>
-    <v-row justify="center" no-gutters>
-      <v-col style="background:#71DFE7" class="py-2 text-center white--black" cols="12">
+  <v-footer  app bottom fixed padless inset>
+    <v-card class="flex" flat tile color="#71DFE7" :elevation="10">
+      <v-card-text class="py-2 black--text text-center">
         {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-      </v-col>
-    </v-row>
+      </v-card-text>
+    </v-card>
   </v-footer>
 </template>
