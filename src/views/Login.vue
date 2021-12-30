@@ -1,16 +1,26 @@
 <template>
   <v-app>
-    <div class="backgruond"></div>
-    <v-main class="d-flex justify-center align-center">
+
+ 
       <v-col cols="10" lg="4" class="mx-auto">
-        <v-card class="pa-4">
+        <v-card class="pa-5">
           <div class="text-center">
             <h2 class="indigo--text">Giriş Yap</h2>
           </div>
+
           <v-form @submit.prevent="submitHandler" ref="form">
             <v-card-text>
+              <v-alert
+                dense
+                outlined
+                icon="mdi-account"
+                :value="controlAlertError"
+                color="red"
+              >
+                Giriş bilgileriniz geçersiz.
+              </v-alert>
               <v-text-field
-                v-model="email"
+                v-model="username"
                 :rules="emailRules"
                 type="email"
                 label="Email"
@@ -38,17 +48,21 @@
           </v-form>
         </v-card>
       </v-col>
-    </v-main>
+
   </v-app>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "App",
   data: () => ({
+    username: "",
+    controlAlertError: false,
     loading: false,
     snackbar: false,
     passwordShow: false,
+    showingButtons: false,
     email: "",
     emailRules: [
       (v) => !!v || "Email alanı zorunludur.",
@@ -63,13 +77,30 @@ export default {
   methods: {
     submitHandler() {
       this.$refs.form.validate();
+      const vm = this;
+      axios
+        .post("http://localhost:8081/api/auth/login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then(function (response) {
+          vm.controlAlertError = false;
+          self.response_key = response.data.result;
+          console.log(response.data)
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("username", response.data.username);
+          vm.$router.push("/");
+          window.location.reload();
+        })
+        .catch(function () {
+          vm.controlAlertError = true;
+        });
     },
   },
 };
 </script>
 <style>
 .backgruond {
-  background-image: url(../assets/Order-Banner.jpg) !important;
   height: 300px;
   width: 100%;
   display: block;

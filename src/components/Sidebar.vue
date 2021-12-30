@@ -11,18 +11,57 @@
     </v-img>
     <v-divider></v-divider>
     <v-list>
-      <v-list-item
-        v-for="link in links"
-        :key="link.text"
-        router
-        :to="link.route"
-        active-class="border"
-      >
+      <v-list-item to="/" active-class="border">
         <v-list-item-icon>
-          <v-icon>{{ link.icon }}</v-icon>
+          <v-icon>mdi-home</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ link.text }}</v-list-item-title>
+          <v-list-item-title>Anasayfa</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item to="/register" active-class="border" v-show="!isAuthenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-account-multiple-plus</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Kayıt Ol</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item to="/login" active-class="border" v-show="!isAuthenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-login</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Giriş Yap</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item to="/test" active-class="border" v-show="isAuthenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-test-tube</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Test Yap</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item to="/result" active-class="border" v-show="isAuthenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-format-list-bulleted</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Sonuçları Görüntüle</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item @click="logoutClass()" v-show="isAuthenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-logout</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Çıkış Yap</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -35,23 +74,21 @@ export default {
   props: ["drawer"],
   data() {
     return {
-      links: [
-        { icon: "mdi-home", text: "Anasayfa", route: "/" },
-        {
-          icon: "mdi-account-multiple-plus",
-          text: "Kayıt Ol",
-          route: "/register",
-        },
-        { icon: "mdi-login", text: "Giriş Yap", route: "/login" },
-        { icon: "mdi-test-tube", text: "Test Yap", route: "/test" },
-        {
-          icon: "mdi-format-list-bulleted",
-          text: "Sonuçları Görüntüle",
-          route: "/result",
-        },
-        { icon: "mdi-logout", text: "Çıkış Yap", route: "/logout" },
-      ],
+      isAuthenticated : false,
     };
+  },
+  created : function() {
+    if(localStorage.getItem('token')){
+      this.isAuthenticated=true;
+    }
+  },
+  methods: {
+    logoutClass() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username")
+      this.$router.replace("/login");
+      window.location.reload();
+    },
   },
 };
 </script>

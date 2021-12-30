@@ -7,17 +7,35 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('./../views/Home')
+    component: () => import('./../views/Home'),
   },
   {
     path: '/result',
     name: 'result',
-    component: () => import('./../views/Result')
+    component: () => import('./../views/Result'),
+    beforeEnter: (to, from, next) => {
+			let bool=false;
+			bool !==localStorage.getItem('token');
+			if (localStorage.getItem('token')!=null) {
+				next()
+			} else {
+				next("/login")
+			}
+		}
   },
   {
     path: '/test',
     name: 'test',
-    component: () => import('./../views/Test')
+    component: () => import('./../views/Test'),
+    beforeEnter: (to, from, next) => {
+			let bool=false;
+			bool !==localStorage.getItem('token');
+			if (localStorage.getItem('token')!=null) {
+				next()
+			} else {
+				next("/login")
+			}
+		}
   },
   {
     path: '/register',
